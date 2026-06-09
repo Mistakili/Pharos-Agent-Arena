@@ -1,1 +1,2 @@
 - [Compliance Gate](compliance-gate.md) — Pharos hackathon Skill; fail-closed posture, why the registry is an interface, Pharos ZK-KYC status.
+- [Workflow port debugging](workflow-port-debugging.md) — false DIDNT_OPEN_A_PORT from leftover manual Vite (strictPort) + the pkill self-kill trap; never run dev servers manually.
