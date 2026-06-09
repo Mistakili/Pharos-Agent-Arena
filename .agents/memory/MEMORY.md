@@ -1,0 +1,1 @@
+- [Compliance Gate](compliance-gate.md) — Pharos hackathon Skill; fail-closed posture, why the registry is an interface, Pharos ZK-KYC status.

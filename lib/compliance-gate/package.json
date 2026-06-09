@@ -1,0 +1,25 @@
+{
+  "name": "@workspace/compliance-gate",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Compliance Gate — a reusable, composable AI-agent Skill for verifying on-chain KYC/AML/jurisdiction/age attestations and gating actions on Pharos.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./skills": "./src/skills/index.ts"
+  },
+  "scripts": {
+    "demo": "tsx scripts/demo.ts",
+    "test": "tsx scripts/test.ts",
+    "deploy": "tsx scripts/deploy.ts"
+  },
+  "dependencies": {
+    "viem": "^2.52.2",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "solc": "^0.8.35",
+    "tsx": "catalog:"
+  }
+}

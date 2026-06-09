@@ -1,44 +1,49 @@
-# [Project name]
+# Compliance Gate
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A reusable, composable AI-agent **Skill** for the Pharos network: it lets any agent verify a counterparty's on-chain compliance attestations (KYC / AML / jurisdiction / age) and **gate** an action behind a policy before transacting. Built for the Pharos Skill-to-Agent Dual Cascade Hackathon.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/compliance-gate run demo` — in-memory narrative: block → attest → allow → revoke
+- `pnpm --filter @workspace/compliance-gate run test` — adversarial fail-closed assertions
+- `pnpm --filter @workspace/compliance-gate run deploy` — compile + deploy `AttestationRegistry.sol` to Pharos testnet (needs `DEPLOYER_PRIVATE_KEY`)
 - `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm run typecheck:libs` — build/typecheck composite libs only
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- On-chain: viem + Solidity (`AttestationRegistry.sol`, EAS-style)
+- Validation: Zod
+- Agent adapters: LangChain, Vercel AI SDK, MCP (mirrors `pharos-agent-kit` conventions)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/compliance-gate/src/` — core: `types`, `policy` (profile builder), `registry` (in-memory + on-chain adapters), `gate` (`ComplianceGate`), `chain` (Pharos testnet), `abi`
+- `lib/compliance-gate/src/skills/` — framework-agnostic `definitions` + `langchain` / `vercel-ai` / `mcp` adapters + hand-rolled zod→`jsonschema`
+- `lib/compliance-gate/contracts/AttestationRegistry.sol` — deployable registry
+- `lib/compliance-gate/scripts/` — `demo`, `test`, `deploy`
+- `lib/compliance-gate/README.md` — judging-criteria-framed overview
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- **Default-deny, fail-closed everywhere.** Missing/expired/revoked/malformed attestations all deny. Boolean claims count as compliant only for an exact normalized `"true"`; unknown on-chain attestation-type enum indices are dropped, never coerced.
+- **Registry is an interface, not a hardcoded backend.** Pharos has no public agent-callable ZK-KYC contract yet (protocol-layer only), so we ship a working EAS-style registry; only the registry adapter changes when Pharos ships its native interface.
+- **Skills are framework-agnostic at the core**, with thin per-framework adapters, so the same logic is reusable across LangChain / Vercel AI SDK / MCP.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+An agent declares a `CompliancePolicy` (requireKyc, maxAmlRisk, allow/blocked jurisdictions, minAge, allowExpired) and calls `gate(subject, policy, action)`. The action runs only if the counterparty's on-chain attestations satisfy the policy. Exposed as discoverable tools: `verify_compliance`, `check_compliance_policy`, `gate_transfer`, `get_attestations`.
 
-## User preferences
+## Pharos testnet
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- chainId 688688 · RPC `https://testnet.dplabs-internal.com` · symbol PHRS
+- explorer `https://testnet.pharosscan.xyz` · faucet `https://www.gas.zip/faucet/pharos`
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- `minimumReleaseAge` (1 day) is set in `pnpm-workspace.yaml` — pick package versions >1 day old.
+- Libs are composite/`emitDeclarationOnly`; use extensionless imports. Run `pnpm run typecheck:libs` after lib changes before leaf typechecks.
 
 ## Pointers
 
