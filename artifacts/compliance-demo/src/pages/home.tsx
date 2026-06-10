@@ -96,8 +96,22 @@ export default function Home() {
         <header className="py-6 sm:py-10">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">Compliance Gate</h1>
           <p className="text-lg text-zinc-400 max-w-2xl">
-            Live evaluation of an agent's on-chain compliance policy against real-time counterparty attestations.
+            Before an AI agent sends funds to a wallet, it checks that wallet against a rulebook. This page lets you run that check live.
           </p>
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
+            <div className="flex items-start gap-2.5">
+              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">1</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Set the rules</span> — left, top</span>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">2</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Pick who you're paying</span> — left, bottom</span>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">3</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Read the verdict</span> — right, updates instantly</span>
+            </div>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -112,7 +126,7 @@ export default function Home() {
                   <Badge variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-400">Step 1</Badge>
                 </div>
                 <CardTitle className="text-xl text-white">Agent Policy</CardTitle>
-                <CardDescription className="text-zinc-400">What the agent requires before transacting.</CardDescription>
+                <CardDescription className="text-zinc-400">Your rulebook — what the other wallet must prove before your agent will send funds. Toggle these and the verdict updates.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 <Select value={activePolicyId} onValueChange={setPolicy}>
@@ -183,7 +197,7 @@ export default function Home() {
                   <Badge variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-400">Step 2</Badge>
                 </div>
                 <CardTitle className="text-xl text-white">Counterparty Profile</CardTitle>
-                <CardDescription className="text-zinc-400">The subject's on-chain attestations.</CardDescription>
+                <CardDescription className="text-zinc-400">Who you're paying — the credentials this wallet actually holds on-chain. Switch scenarios to watch the verdict flip.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 <Select value={activeScenarioId} onValueChange={setScenario}>
@@ -280,7 +294,8 @@ export default function Home() {
                 
                 {/* BIG VERDICT */}
                 <div className="text-center lg:text-left flex-1 flex flex-col items-center lg:items-start justify-center">
-                  <div className="text-sm font-mono text-zinc-500 mb-6 tracking-widest uppercase">EVALUATION RESULT</div>
+                  <div className="text-sm font-mono text-zinc-500 mb-2 tracking-widest uppercase">EVALUATION RESULT</div>
+                  <div className="text-xs text-zinc-500 mb-6 max-w-xs">Can the agent make this transfer? <span className="text-emerald-500/80">ALLOW</span> = rules met, <span className="text-red-500/80">BLOCK</span> = not.</div>
                   <AnimatePresence mode="popLayout">
                     <motion.div
                       key={isAllowed ? 'allow' : 'block'}
@@ -309,7 +324,8 @@ export default function Home() {
 
                 {/* DETAILED CHECKS */}
                 <div className="w-full lg:w-[320px] shrink-0 bg-black/40 border border-zinc-800/50 rounded-lg p-5 backdrop-blur-md">
-                  <div className="text-xs font-mono text-zinc-500 mb-4 tracking-wider">POLICY CHECKS</div>
+                  <div className="text-xs font-mono text-zinc-500 mb-1 tracking-wider">POLICY CHECKS</div>
+                  <div className="text-[11px] text-zinc-600 mb-4 leading-tight">Each rule, checked one by one. ✓ = met, ✗ = missing.</div>
                   <div className="space-y-3">
                     {decision.checks.map((check, i) => (
                       <div key={i} className="flex gap-3 items-start">
@@ -353,7 +369,7 @@ export default function Home() {
                   <CardTitle className="text-lg text-white">Agent MCP Tools</CardTitle>
                 </div>
                 <CardDescription className="text-zinc-400">
-                  This exact logic is exposed to LLMs via Model Context Protocol. Run a live query against the current state.
+                  Proof an AI can do all of the above on its own. These are the exact functions an AI agent calls — click one to run it and see the raw request and answer it gets back.
                 </CardDescription>
               </CardHeader>
               <CardContent>
