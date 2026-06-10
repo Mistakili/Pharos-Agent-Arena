@@ -96,20 +96,26 @@ export default function Home() {
         <header className="py-6 sm:py-10">
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">Compliance Gate</h1>
           <p className="text-lg text-zinc-400 max-w-2xl">
-            Before an AI agent sends funds to a wallet, it checks that wallet against a rulebook. This page lets you run that check live.
+            A reusable, drop-in compliance skill for AI agents. Declare a policy once, call the skill, and get an explainable allow/deny decision — KYC, AML, jurisdiction, and age, all in one.
           </p>
-          <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
+          <div className="mt-4 flex flex-wrap gap-2 text-xs font-mono text-zinc-500">
+            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">LangChain</span>
+            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">Vercel AI SDK</span>
+            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">MCP</span>
+            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-emerald-500/80">Pharos Testnet</span>
+          </div>
+          <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
             <div className="flex items-start gap-2.5">
               <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">1</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Set the rules</span> — left, top</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Configure the skill's policy</span> — left, top</span>
             </div>
             <div className="flex items-start gap-2.5">
               <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">2</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Pick who you're paying</span> — left, bottom</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Choose a test subject</span> — left, bottom</span>
             </div>
             <div className="flex items-start gap-2.5">
               <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">3</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Read the verdict</span> — right, updates instantly</span>
+              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">See what the skill returns</span> — right, live</span>
             </div>
           </div>
         </header>
@@ -126,7 +132,7 @@ export default function Home() {
                   <Badge variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-400">Step 1</Badge>
                 </div>
                 <CardTitle className="text-xl text-white">Agent Policy</CardTitle>
-                <CardDescription className="text-zinc-400">Your rulebook — what the other wallet must prove before your agent will send funds. Toggle these and the verdict updates.</CardDescription>
+                <CardDescription className="text-zinc-400">The skill's policy — an agent declares this once at deployment. Toggle constraints to see how the skill adapts its decision in real time.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 <Select value={activePolicyId} onValueChange={setPolicy}>
@@ -197,7 +203,7 @@ export default function Home() {
                   <Badge variant="outline" className="bg-zinc-900 border-zinc-800 text-zinc-400">Step 2</Badge>
                 </div>
                 <CardTitle className="text-xl text-white">Counterparty Profile</CardTitle>
-                <CardDescription className="text-zinc-400">Who you're paying — the credentials this wallet actually holds on-chain. Switch scenarios to watch the verdict flip.</CardDescription>
+                <CardDescription className="text-zinc-400">The test subject — credentials this wallet holds on-chain. Swap scenarios to prove the skill correctly gates each case.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 <Select value={activeScenarioId} onValueChange={setScenario}>
@@ -294,8 +300,8 @@ export default function Home() {
                 
                 {/* BIG VERDICT */}
                 <div className="text-center lg:text-left flex-1 flex flex-col items-center lg:items-start justify-center">
-                  <div className="text-sm font-mono text-zinc-500 mb-2 tracking-widest uppercase">EVALUATION RESULT</div>
-                  <div className="text-xs text-zinc-500 mb-6 max-w-xs">Can the agent make this transfer? <span className="text-emerald-500/80">ALLOW</span> = rules met, <span className="text-red-500/80">BLOCK</span> = not.</div>
+                  <div className="text-sm font-mono text-zinc-500 mb-2 tracking-widest uppercase">SKILL DECISION</div>
+                  <div className="text-xs text-zinc-500 mb-6 max-w-xs">What the skill returns to the calling agent. <span className="text-emerald-500/80">ALLOW</span> = all policy checks passed, <span className="text-red-500/80">BLOCK</span> = at least one failed.</div>
                   <AnimatePresence mode="popLayout">
                     <motion.div
                       key={isAllowed ? 'allow' : 'block'}
@@ -369,7 +375,7 @@ export default function Home() {
                   <CardTitle className="text-lg text-white">Agent MCP Tools</CardTitle>
                 </div>
                 <CardDescription className="text-zinc-400">
-                  Proof an AI can do all of the above on its own. These are the exact functions an AI agent calls — click one to run it and see the raw request and answer it gets back.
+                  The skill's real interface. These are the exact tools any agent calls — in LangChain, Vercel AI SDK, or MCP. Click one to run it live against the current inputs and see exactly what the agent receives back.
                 </CardDescription>
               </CardHeader>
               <CardContent>
