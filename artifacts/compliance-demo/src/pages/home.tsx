@@ -20,6 +20,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Trash2, Plus, ArrowRightLeft, TerminalSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+const CHECK_LABELS: Record<string, string> = {
+  kyc: "KYC",
+  aml: "AML Risk",
+  jurisdiction_allowlist: "Jurisdiction",
+  jurisdiction_blocklist: "Jurisdiction",
+  age: "Age",
+  accreditation: "Accreditation",
+};
+function checkLabel(name: string): string {
+  return CHECK_LABELS[name] ?? name.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+}
+
 export default function Home() {
   const {
     scenarios,
@@ -340,12 +352,12 @@ export default function Home() {
                 </div>
 
                 {/* DETAILED CHECKS */}
-                <div className="w-full lg:w-[320px] shrink-0 bg-black/40 border border-zinc-800/50 rounded-lg p-5 backdrop-blur-md">
+                <div className="w-full lg:w-[260px] xl:w-[290px] min-w-0 overflow-hidden bg-black/40 border border-zinc-800/50 rounded-lg p-5 backdrop-blur-md">
                   <div className="text-xs font-mono text-zinc-500 mb-1 tracking-wider">POLICY CHECKS</div>
                   <div className="text-[11px] text-zinc-600 mb-4 leading-tight">Each rule, checked one by one. ✓ = met, ✗ = missing.</div>
                   <div className="space-y-3">
                     {decision.checks.map((check, i) => (
-                      <div key={i} className="flex gap-3 items-start">
+                      <div key={i} className="flex gap-3 items-start min-w-0">
                         <div className="mt-0.5 shrink-0">
                           {check.passed ? (
                             <CheckCircle2 className="w-4 h-4 text-emerald-500" />
@@ -353,9 +365,9 @@ export default function Home() {
                             <XCircle className="w-4 h-4 text-red-500" />
                           )}
                         </div>
-                        <div className="space-y-1">
-                          <div className="text-sm font-medium text-zinc-200 leading-none">{check.name}</div>
-                          <div className="text-xs text-zinc-500 leading-tight">{check.detail}</div>
+                        <div className="space-y-1 min-w-0">
+                          <div className="text-sm font-medium text-zinc-200 leading-none">{checkLabel(check.name)}</div>
+                          <div className="text-xs text-zinc-500 leading-tight break-words">{check.detail}</div>
                         </div>
                       </div>
                     ))}
