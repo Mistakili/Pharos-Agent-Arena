@@ -93,30 +93,41 @@ export default function Home() {
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         
         {/* Title */}
-        <header className="py-6 sm:py-10">
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">Compliance Gate</h1>
-          <p className="text-lg text-zinc-400 max-w-2xl">
-            A reusable, drop-in compliance skill for AI agents. Declare a policy once, call the skill, and get an explainable allow/deny decision — KYC, AML, jurisdiction, and age, all in one.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 text-xs font-mono text-zinc-500">
-            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">LangChain</span>
-            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">Vercel AI SDK</span>
-            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">MCP</span>
-            <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-emerald-500/80">Pharos Testnet</span>
+        <header className="py-6 sm:py-10 flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          {/* Text side */}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">Compliance Gate</h1>
+            <p className="text-lg text-zinc-400 max-w-2xl">
+              A reusable, drop-in compliance skill for AI agents. Declare a policy once, call the skill, and get an explainable allow/deny decision — KYC, AML, jurisdiction, and age, all in one.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-mono text-zinc-500">
+              <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">LangChain</span>
+              <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">Vercel AI SDK</span>
+              <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800">MCP</span>
+              <span className="px-2 py-1 rounded bg-zinc-900 border border-zinc-800 text-emerald-500/80">Pharos Testnet</span>
+            </div>
+            <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
+              <div className="flex items-start gap-2.5">
+                <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">1</span>
+                <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Configure the skill's policy</span> — left, top</span>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">2</span>
+                <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Choose a test subject</span> — left, bottom</span>
+              </div>
+              <div className="flex items-start gap-2.5">
+                <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">3</span>
+                <span className="text-zinc-400"><span className="text-zinc-200 font-medium">See what the skill returns</span> — right, live</span>
+              </div>
+            </div>
           </div>
-          <div className="mt-5 flex flex-col sm:flex-row gap-3 sm:gap-4 text-sm">
-            <div className="flex items-start gap-2.5">
-              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">1</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Configure the skill's policy</span> — left, top</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">2</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">Choose a test subject</span> — left, bottom</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-[11px] font-bold text-zinc-300">3</span>
-              <span className="text-zinc-400"><span className="text-zinc-200 font-medium">See what the skill returns</span> — right, live</span>
-            </div>
+          {/* Hero image */}
+          <div className="shrink-0 hidden lg:block w-72 xl:w-80">
+            <img
+              src="/hero.png"
+              alt="Compliance Gate — networked shield visualization"
+              className="w-full rounded-2xl opacity-90 shadow-[0_0_60px_-10px_rgba(16,185,129,0.35)]"
+            />
           </div>
         </header>
 

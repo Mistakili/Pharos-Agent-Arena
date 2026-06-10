@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "WfKld9F8rf27y5nu_Tu-0"
+uri = "file://artifacts/compliance-demo/public/hero.png"
+type = "image"
+title = "compliance gate hero"
