@@ -512,6 +512,26 @@ export default function Home() {
             ))}
           </div>
 
+          {/* On-chain vs mocked callout */}
+          <div className="mb-8 bg-zinc-900/40 border border-zinc-800/50 rounded-xl p-5 flex flex-col sm:flex-row gap-4 sm:gap-8">
+            <div className="flex-1">
+              <div className="text-xs font-mono text-emerald-500 tracking-wider mb-2">LIVE ON PHAROS TESTNET (chainId 688688)</div>
+              <ul className="space-y-1 text-sm text-zinc-400">
+                <li><span className="text-emerald-400 mr-2">✓</span><code className="text-zinc-300 text-xs">AttestationRegistry.sol</code> — compiled, deployable via <code className="text-zinc-300 text-xs">pnpm run deploy</code></li>
+                <li><span className="text-emerald-400 mr-2">✓</span><code className="text-zinc-300 text-xs">createOnChainRegistry()</code> reads attestations via viem RPC</li>
+                <li><span className="text-emerald-400 mr-2">✓</span>Pharos testnet RPC wired in <code className="text-zinc-300 text-xs">chain.ts</code></li>
+              </ul>
+            </div>
+            <div className="flex-1">
+              <div className="text-xs font-mono text-zinc-500 tracking-wider mb-2">SIMULATED IN THIS DEMO</div>
+              <ul className="space-y-1 text-sm text-zinc-500">
+                <li><span className="text-zinc-600 mr-2">○</span>Attestations are held in an <code className="text-zinc-600 text-xs">InMemoryRegistry</code> — no wallet or gas needed</li>
+                <li><span className="text-zinc-600 mr-2">○</span>Pharos testnet RPC currently returns "ecosystem not supported" for external reads</li>
+                <li><span className="text-zinc-600 mr-2">○</span>Swap to <code className="text-zinc-600 text-xs">createOnChainRegistry(&#123;contractAddress&#125;)</code> for live reads</li>
+              </ul>
+            </div>
+          </div>
+
           {/* Adapter tabs */}
           <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl overflow-hidden">
             <div className="border-b border-zinc-800/60 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
@@ -599,15 +619,9 @@ server.setRequestHandler(CallToolRequestSchema, async (req) =>
           {/* Source link */}
           <div className="mt-8 text-center">
             <p className="text-zinc-600 text-sm">
-              Source on{" "}
-              <a
-                href="https://github.com"
-                className="text-emerald-500 hover:text-emerald-400 transition-colors underline underline-offset-2"
-              >
-                GitHub
-              </a>
-              {" · "}
               <span className="font-mono text-zinc-500">@compliance-gate/core</span>
+              {" · "}
+              <span className="text-zinc-600">Pharos Skill-to-Agent Dual Cascade Hackathon 2026</span>
             </p>
           </div>
         </div>

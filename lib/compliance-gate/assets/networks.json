@@ -1,0 +1,10 @@
+{
+  "testnet": {
+    "name": "Pharos Atlantic Testnet",
+    "chainId": 688688,
+    "rpcUrl": "https://testnet.dplabs-internal.com",
+    "explorerUrl": "https://testnet.pharosscan.xyz",
+    "nativeToken": { "symbol": "PHRS", "decimals": 18 },
+    "faucet": "https://www.gas.zip/faucet/pharos"
+  }
+}
