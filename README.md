@@ -7,6 +7,7 @@ Declare a KYC / AML / jurisdiction / age policy once; the skill gates every tran
 | | |
 | --- | --- |
 | **Live demo** | https://pharos-agent-arena.replit.app/ |
+| **Docs** | https://pharos-agent-arena.replit.app/docs |
 | **Package** | `@workspace/compliance-gate` (workspace; future npm name: `@compliance-gate/core`) |
 | **Network** | Pharos Testnet · chainId `688688` |
 

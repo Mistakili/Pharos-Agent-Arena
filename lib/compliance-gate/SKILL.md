@@ -18,6 +18,7 @@ A composable Skill module that lets any AI agent consume Pharos compliance data
 explainable allow/deny decision with per-rule detail.
 
 **Live demo:** https://pharos-agent-arena.replit.app/
+**Docs (no video needed):** https://pharos-agent-arena.replit.app/docs
 **Source:** https://github.com/Mistakili/Pharos-Agent-Arena
 
 ---

@@ -9,8 +9,7 @@ import { Input } from "@/components/ui/input";
 import { 
   callAgentTool, 
   listAgentTools, 
-  SUBJECT, 
-  PHAROS,
+  SUBJECT,
   ATTESTATION_LABELS,
   ATTESTATION_VALUE_HINTS,
   type AttestationType,
@@ -19,6 +18,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Trash2, Plus, ArrowRightLeft, TerminalSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SiteHeader } from "@/components/site-header";
 
 const CHECK_LABELS: Record<string, string> = {
   kyc: "KYC",
@@ -82,26 +82,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 font-sans selection:bg-emerald-500/30 overflow-x-hidden">
-      {/* Network Header */}
-      <div className="bg-zinc-950 border-b border-zinc-900 py-2 px-6 flex justify-between items-center text-xs font-mono">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-emerald-500">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            {PHAROS.name}
-          </div>
-          <span className="text-zinc-600 hidden sm:inline">|</span>
-          <span className="text-zinc-500 hidden sm:inline">Chain ID: {PHAROS.chainId}</span>
-          <span className="text-zinc-600 hidden sm:inline">|</span>
-          <span className="text-zinc-500 hidden sm:inline">RPC: {PHAROS.rpcUrl}</span>
-        </div>
-        <div className="text-zinc-500 flex items-center gap-2">
-          <span>SUBJECT:</span>
-          <span className="text-zinc-300 bg-zinc-900 px-1.5 py-0.5 rounded">{SUBJECT.slice(0,6)}...{SUBJECT.slice(-4)}</span>
-        </div>
-      </div>
+      <SiteHeader active="demo" />
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         

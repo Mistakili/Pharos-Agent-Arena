@@ -1,6 +1,6 @@
 # Compliance Gate — a reusable Skill for compliant on-chain agents
 
-> **Live demo:** https://pharos-agent-arena.replit.app/ · **Source:** https://github.com/Mistakili/Pharos-Agent-Arena
+> **Live demo:** https://pharos-agent-arena.replit.app/ · **Docs:** https://pharos-agent-arena.replit.app/docs · **Source:** https://github.com/Mistakili/Pharos-Agent-Arena
 >
 > Built for the Pharos **Skill-to-Agent Dual Cascade Hackathon**.
 > A composable Skill module that lets **any** AI agent verify a counterparty's
