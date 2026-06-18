@@ -9,8 +9,7 @@ import { Input } from "@/components/ui/input";
 import { 
   callAgentTool, 
   listAgentTools, 
-  SUBJECT, 
-  PHAROS,
+  SUBJECT,
   ATTESTATION_LABELS,
   ATTESTATION_VALUE_HINTS,
   type AttestationType,
@@ -19,6 +18,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, XCircle, Trash2, Plus, ArrowRightLeft, TerminalSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { SiteHeader } from "@/components/site-header";
 
 const CHECK_LABELS: Record<string, string> = {
   kyc: "KYC",
@@ -54,6 +54,7 @@ export default function Home() {
   const [toolResult, setToolResult] = useState<any>(null);
   const [loadingTool, setLoadingTool] = useState(false);
   const [activeAdapter, setActiveAdapter] = useState<"langchain" | "vercel" | "mcp" | "core">("core");
+
   
   const handleToolCall = async (toolName: string) => {
     setLoadingTool(true);
@@ -82,26 +83,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 font-sans selection:bg-emerald-500/30 overflow-x-hidden">
-      {/* Network Header */}
-      <div className="bg-zinc-950 border-b border-zinc-900 py-2 px-6 flex justify-between items-center text-xs font-mono">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-emerald-500">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            {PHAROS.name}
-          </div>
-          <span className="text-zinc-600 hidden sm:inline">|</span>
-          <span className="text-zinc-500 hidden sm:inline">Chain ID: {PHAROS.chainId}</span>
-          <span className="text-zinc-600 hidden sm:inline">|</span>
-          <span className="text-zinc-500 hidden sm:inline">RPC: {PHAROS.rpcUrl}</span>
-        </div>
-        <div className="text-zinc-500 flex items-center gap-2">
-          <span>SUBJECT:</span>
-          <span className="text-zinc-300 bg-zinc-900 px-1.5 py-0.5 rounded">{SUBJECT.slice(0,6)}...{SUBJECT.slice(-4)}</span>
-        </div>
-      </div>
+      <SiteHeader active="demo" />
 
       <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
         
@@ -477,14 +459,14 @@ export default function Home() {
           </div>
 
           {/* Steps */}
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {[
               {
                 n: "1",
                 title: "Install",
                 desc: "Add the package to your agent project.",
-                code: "npm install @compliance-gate/core",
-                lang: "bash",
+
               },
               {
                 n: "2",
@@ -492,6 +474,7 @@ export default function Home() {
                 desc: "Define once at agent startup — what compliance looks like for your use case.",
                 code: `const policy = {\n  requireKyc: true,\n  maxAmlRisk: "medium",\n  allowedJurisdictions: ["US", "EU"],\n  minAge: 18,\n};`,
                 lang: "ts",
+
               },
               {
                 n: "3",
@@ -508,6 +491,7 @@ export default function Home() {
                 </div>
                 <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
                 <pre className="bg-black/60 border border-zinc-800 rounded-lg p-4 text-xs font-mono text-emerald-300/90 overflow-x-auto leading-relaxed flex-1">{code}</pre>
+
               </div>
             ))}
           </div>
@@ -520,6 +504,7 @@ export default function Home() {
                 <li><span className="text-emerald-400 mr-2">✓</span><code className="text-zinc-300 text-xs">AttestationRegistry.sol</code> — compiled, deployable via <code className="text-zinc-300 text-xs">pnpm run deploy</code></li>
                 <li><span className="text-emerald-400 mr-2">✓</span><code className="text-zinc-300 text-xs">createOnChainRegistry()</code> reads attestations via viem RPC</li>
                 <li><span className="text-emerald-400 mr-2">✓</span>Pharos testnet RPC wired in <code className="text-zinc-300 text-xs">chain.ts</code></li>
+
               </ul>
             </div>
             <div className="flex-1">
@@ -528,11 +513,12 @@ export default function Home() {
                 <li><span className="text-zinc-600 mr-2">○</span>Attestations are held in an <code className="text-zinc-600 text-xs">InMemoryRegistry</code> — no wallet or gas needed</li>
                 <li><span className="text-zinc-600 mr-2">○</span>Pharos testnet RPC currently returns "ecosystem not supported" for external reads</li>
                 <li><span className="text-zinc-600 mr-2">○</span>Swap to <code className="text-zinc-600 text-xs">createOnChainRegistry(&#123;contractAddress&#125;)</code> for live reads</li>
+
               </ul>
             </div>
           </div>
 
-          {/* Adapter tabs */}
+          {/* Adapter tabs *
           <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl overflow-hidden">
             <div className="border-b border-zinc-800/60 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
               <div>
@@ -563,6 +549,7 @@ export default function Home() {
               {activeAdapter === "core" && (
                 <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { ComplianceGate, InMemoryRegistry } from "@compliance-gate/core";
 
+
 const registry = new InMemoryRegistry();
 const gate     = new ComplianceGate(registry);
 
@@ -580,6 +567,7 @@ console.log(result.checks);   // per-rule pass/fail detail`}</pre>
                 <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { DynamicStructuredTool } from "@langchain/core/tools";
 import { createComplianceSkills }  from "@compliance-gate/core/skills";
 import { toLangChainTools }        from "@compliance-gate/core/skills/langchain";
+
 
 const skills = createComplianceSkills(gate);
 const tools  = toLangChainTools(skills, { DynamicStructuredTool });
@@ -609,6 +597,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
 }));
 
 // Handle tools/call
+
 server.setRequestHandler(CallToolRequestSchema, async (req) =>
   callMcpTool(skills, req.params.name, req.params.arguments),
 );`}</pre>
@@ -620,11 +609,13 @@ server.setRequestHandler(CallToolRequestSchema, async (req) =>
           <div className="mt-8 text-center">
             <p className="text-zinc-600 text-sm">
               <span className="font-mono text-zinc-500">@compliance-gate/core</span>
+
               {" · "}
               <span className="text-zinc-600">Pharos Skill-to-Agent Dual Cascade Hackathon 2026</span>
             </p>
           </div>
         </div>
+
 
       </div>
     </div>
