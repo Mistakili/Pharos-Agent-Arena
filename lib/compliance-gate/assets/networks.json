@@ -1,0 +1,14 @@
+{
+  "pharos-testnet": {
+    "name": "Pharos Testnet",
+    "chainId": 688688,
+    "nativeCurrency": {
+      "name": "Pharos",
+      "symbol": "PHRS",
+      "decimals": 18
+    },
+    "rpcUrl": "https://testnet.dplabs-internal.com",
+    "explorerUrl": "https://testnet.pharosscan.xyz",
+    "faucetUrl": "https://www.gas.zip/faucet/pharos"
+  }
+}

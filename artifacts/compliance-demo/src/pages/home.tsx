@@ -53,6 +53,7 @@ export default function Home() {
 
   const [toolResult, setToolResult] = useState<any>(null);
   const [loadingTool, setLoadingTool] = useState(false);
+  const [adapterTab, setAdapterTab] = useState<"core" | "langchain" | "vercel" | "mcp">("core");
   
   const handleToolCall = async (toolName: string) => {
     setLoadingTool(true);
@@ -465,6 +466,204 @@ export default function Home() {
               </CardContent>
             </Card>
 
+          </div>
+        </div>
+
+        <div className="mt-20 pb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-white mb-3">Add it to your agent</h2>
+            <p className="text-zinc-400 text-lg max-w-xl mx-auto">
+              Three steps. Works with every major agent framework.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                n: "1",
+                title: "Install",
+                desc: "Add the package to your agent project.",
+                code: "pnpm add @workspace/compliance-gate",
+              },
+              {
+                n: "2",
+                title: "Declare a policy",
+                desc: "Define once at agent startup — what compliance looks like for your use case.",
+                code: `const policy = {
+  requireKyc: true,
+  maxAmlRisk: "medium",
+  allowedJurisdictions: ["US", "EU"],
+  minAge: 18,
+};`,
+              },
+              {
+                n: "3",
+                title: "Gate any action",
+                desc: "Wrap any transfer or action — runs only if the counterparty passes.",
+                code: `await gate.gate(
+  counterpartyAddress,
+  policy,
+  () => executeTransfer(amount, to),
+);
+// .allowed  .reasons  .checks[]`,
+              },
+            ].map(({ n, title, desc, code }) => (
+              <div
+                key={n}
+                className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl p-6 flex flex-col gap-4"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-xs font-bold flex items-center justify-center shrink-0">
+                    {n}
+                  </span>
+                  <span className="text-white font-semibold text-base">{title}</span>
+                </div>
+                <p className="text-zinc-500 text-sm leading-relaxed">{desc}</p>
+                <pre className="bg-black/60 border border-zinc-800 rounded-lg p-4 text-xs font-mono text-emerald-300/90 overflow-x-auto leading-relaxed flex-1">
+                  {code}
+                </pre>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 bg-zinc-900/40 border border-zinc-800/50 rounded-xl p-5 flex flex-col sm:flex-row gap-4 sm:gap-8">
+            <div className="flex-1">
+              <div className="text-xs font-mono text-emerald-500 tracking-wider mb-2">
+                LIVE ON PHAROS TESTNET (chainId 688688)
+              </div>
+              <ul className="space-y-1 text-sm text-zinc-400">
+                <li>
+                  <span className="text-emerald-400 mr-2">●</span>
+                  <code className="text-zinc-300 text-xs">AttestationRegistry.sol</code> — compiled, deployable via{" "}
+                  <code className="text-zinc-300 text-xs">pnpm run deploy</code>
+                </li>
+                <li>
+                  <span className="text-emerald-400 mr-2">●</span>
+                  <code className="text-zinc-300 text-xs">createOnChainRegistry()</code> reads attestations via viem RPC
+                </li>
+                <li>
+                  <span className="text-emerald-400 mr-2">●</span>
+                  Pharos testnet RPC wired in <code className="text-zinc-300 text-xs">chain.ts</code>
+                </li>
+              </ul>
+            </div>
+            <div className="flex-1">
+              <div className="text-xs font-mono text-zinc-500 tracking-wider mb-2">SIMULATED IN THIS DEMO</div>
+              <ul className="space-y-1 text-sm text-zinc-500">
+                <li>
+                  Attestations are held in an <code className="text-zinc-600 text-xs">InMemoryRegistry</code> — no wallet or gas needed
+                </li>
+                <li>
+                  Pharos testnet RPC currently returns &quot;ecosystem not supported&quot; for external reads
+                </li>
+                <li>
+                  Swap to <code className="text-zinc-600 text-xs">createOnChainRegistry({"{contractAddress}"})</code> for live reads
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl overflow-hidden">
+            <div className="border-b border-zinc-800/60 px-6 py-4 flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <div className="text-white font-semibold">Pick your framework adapter</div>
+                <div className="text-zinc-500 text-sm mt-0.5">
+                  Same skill, same logic — thin adapter per framework.
+                </div>
+              </div>
+              <div className="flex gap-1 bg-black/40 rounded-lg p-1">
+                {(
+                  [
+                    ["core", "Core / Direct"],
+                    ["langchain", "LangChain"],
+                    ["vercel", "Vercel AI SDK"],
+                    ["mcp", "MCP"],
+                  ] as const
+                ).map(([id, label]) => (
+                  <button
+                    key={id}
+                    onClick={() => setAdapterTab(id)}
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                      adapterTab === id
+                        ? "bg-emerald-600 text-white"
+                        : "text-zinc-400 hover:text-zinc-200"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="p-6">
+              {adapterTab === "core" && (
+                <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { ComplianceGate, InMemoryRegistry } from "@workspace/compliance-gate";
+
+const registry = new InMemoryRegistry();
+const gate     = new ComplianceGate(registry);
+
+const result = await gate.gate(
+  counterpartyAddress,
+  { requireKyc: true, maxAmlRisk: "medium", allowedJurisdictions: ["US"] },
+  () => executeTransfer(amount, to),
+);
+
+console.log(result.allowed);  // true | false
+console.log(result.reasons);  // human-readable explanations
+console.log(result.checks);   // per-rule pass/fail detail`}</pre>
+              )}
+              {adapterTab === "langchain" && (
+                <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { DynamicStructuredTool } from "@langchain/core/tools";
+import { createComplianceSkills }  from "@workspace/compliance-gate/skills";
+import { toLangChainTools }        from "@workspace/compliance-gate/skills/langchain";
+
+const skills = createComplianceSkills(gate);
+const tools  = toLangChainTools(skills, { DynamicStructuredTool });
+
+// Drop into any LangChain agent — verify_compliance, gate_transfer, etc.
+const agent = createReactAgent({ llm, tools });`}</pre>
+              )}
+              {adapterTab === "vercel" && (
+                <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { generateText }           from "ai";
+import { createComplianceSkills } from "@workspace/compliance-gate/skills";
+import { toVercelAiTools }        from "@workspace/compliance-gate/skills/vercel-ai";
+
+const tools = toVercelAiTools(createComplianceSkills(gate));
+
+await generateText({ model, tools, prompt: "Transfer 100 USDC to 0xABC." });
+// The model calls verify_compliance automatically before gate_transfer`}</pre>
+              )}
+              {adapterTab === "mcp" && (
+                <pre className="text-xs font-mono text-zinc-300 leading-relaxed whitespace-pre overflow-x-auto">{`import { createComplianceSkills }  from "@workspace/compliance-gate/skills";
+import { toMcpTools, callMcpTool } from "@workspace/compliance-gate/skills/mcp";
+
+const skills = createComplianceSkills(gate);
+
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
+  tools: toMcpTools(skills),
+}));
+
+server.setRequestHandler(CallToolRequestSchema, async (req) =>
+  callMcpTool(skills, req.params.name, req.params.arguments),
+);`}</pre>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-8 text-center">
+            <p className="text-zinc-600 text-sm">
+              <a
+                href="https://github.com/Mistakili/Pharos-Agent-Arena"
+                className="text-emerald-500 hover:text-emerald-400 transition-colors underline underline-offset-2"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source on GitHub
+              </a>
+              {" · "}
+              <span className="font-mono text-zinc-500">@workspace/compliance-gate</span>
+              {" · "}
+              <span className="text-zinc-600">Pharos Skill-to-Agent Dual Cascade Hackathon 2026</span>
+            </p>
           </div>
         </div>
       </div>
